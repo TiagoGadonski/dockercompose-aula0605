@@ -1,17 +1,12 @@
 from flask import Flask
 from dotenv import load_dotenv
-import mysql.connector
-import os 
+import mysql.connector 
+import os
 
 load_dotenv()
-
 app = Flask(__name__)
 
-
-print(os.getenv("DB_USER"))
-
-@app.route('/')
-
+@app.route("/")
 def hello():
     db = mysql.connector.connect(
         user=os.getenv("DB_USER"),
@@ -19,6 +14,7 @@ def hello():
         password=os.getenv("DB_PASSWORD"),
         database=os.getenv("DB_NAME"),
     )
+
     cursor = db.cursor()
     cursor.execute("SELECT 'Hello from Flask and MySQL!'")
     result = cursor.fetchone()
@@ -26,5 +22,6 @@ def hello():
     db.close()
     return result[0]
 
-if __name__== '__main__':
+
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
